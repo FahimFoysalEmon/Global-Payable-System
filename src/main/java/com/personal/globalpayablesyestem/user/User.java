@@ -1,4 +1,4 @@
-package com.personal.globalpayablesyestem.userOnboarding;
+package com.personal.globalpayablesyestem.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class UserEntity {
+public class User {
 
     @Id
     @GeneratedValue(generator = "system-uuid")
