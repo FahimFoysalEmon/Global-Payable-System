@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @Table(name = "user_entity")
-public class User {
+public class User{
 
     @Id
     @GeneratedValue(generator = "system-uuid")
