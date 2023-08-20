@@ -10,10 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 @NoArgsConstructor
 public class AuthenticationRequest {
 
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String password;
+  private String email;
+  private String password;
 
 
 }
