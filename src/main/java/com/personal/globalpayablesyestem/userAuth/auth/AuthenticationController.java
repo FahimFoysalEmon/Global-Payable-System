@@ -1,4 +1,4 @@
-package com.personal.globalpayablesyestem.auth;
+package com.personal.globalpayablesyestem.userAuth.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,12 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationService.register(request));
     }
 
-
+    @PostMapping("/register/admin")
+    public ResponseEntity<AuthenticationResponse> registerAdmin(
+            @RequestBody RegisterRequestAdmin request
+    ) {
+        return ResponseEntity.ok(authenticationService.registerAdmin(request));
+    }
 
     @PostMapping("/authentication")
     public ResponseEntity<AuthenticationResponse> register(

@@ -1,4 +1,4 @@
-package com.personal.globalpayablesyestem.config;
+package com.personal.globalpayablesyestem.userAuth.config;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

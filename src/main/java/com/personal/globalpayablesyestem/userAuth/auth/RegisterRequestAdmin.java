@@ -1,5 +1,6 @@
-package com.personal.globalpayablesyestem.auth;
+package com.personal.globalpayablesyestem.userAuth.auth;
 
+import com.personal.globalpayablesyestem.userAuth.user.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,11 +10,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequest {
+public class RegisterRequestAdmin {
 
     private String userName;
     private String userEmail;
     private String userPhone;
     private String userPassword;
+    private Role role;
 
 }

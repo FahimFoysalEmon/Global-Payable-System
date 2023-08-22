@@ -1,4 +1,4 @@
-package com.personal.globalpayablesyestem.user;
+package com.personal.globalpayablesyestem.userAuth.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
