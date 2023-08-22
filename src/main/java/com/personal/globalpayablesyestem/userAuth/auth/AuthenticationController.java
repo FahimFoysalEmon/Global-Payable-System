@@ -23,7 +23,7 @@ public class AuthenticationController {
 
     @PostMapping("/register/admin")
     public ResponseEntity<AuthenticationResponse> registerAdmin(
-            @RequestBody RegisterRequestAdmin request
+            @RequestBody RegisterRequest request
     ) {
         return ResponseEntity.ok(authenticationService.registerAdmin(request));
     }
