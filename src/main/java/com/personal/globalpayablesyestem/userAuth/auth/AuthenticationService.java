@@ -1,14 +1,14 @@
-package com.personal.globalpayablesyestem.auth;
+package com.personal.globalpayablesyestem.userAuth.auth;
 
-import com.personal.globalpayablesyestem.config.JwtService;
-import com.personal.globalpayablesyestem.user.UserRepository;
-import com.personal.globalpayablesyestem.user.User;
+import com.personal.globalpayablesyestem.userAuth.config.JwtService;
+import com.personal.globalpayablesyestem.userAuth.user.UserRepository;
+import com.personal.globalpayablesyestem.userAuth.user.User;
+import com.personal.globalpayablesyestem.userAuth.user.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.personal.globalpayablesyestem.user.Role;
 
 
 @Service

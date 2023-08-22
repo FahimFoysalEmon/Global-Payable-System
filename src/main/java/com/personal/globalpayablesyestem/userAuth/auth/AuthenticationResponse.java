@@ -1,4 +1,4 @@
-package com.personal.globalpayablesyestem.auth;
+package com.personal.globalpayablesyestem.userAuth.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

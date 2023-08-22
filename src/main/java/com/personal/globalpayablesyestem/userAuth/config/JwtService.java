@@ -1,4 +1,4 @@
-package com.personal.globalpayablesyestem.config;
+package com.personal.globalpayablesyestem.userAuth.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

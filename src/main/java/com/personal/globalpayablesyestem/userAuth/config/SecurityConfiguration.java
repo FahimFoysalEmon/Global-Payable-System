@@ -1,8 +1,6 @@
-package com.personal.globalpayablesyestem.config;
+package com.personal.globalpayablesyestem.userAuth.config;
 
-import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.NotFound;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
