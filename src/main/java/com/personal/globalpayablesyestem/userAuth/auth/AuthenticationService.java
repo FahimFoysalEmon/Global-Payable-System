@@ -36,7 +36,7 @@ public class AuthenticationService {
     }
 
 
-    public AuthenticationResponse registerAdmin(RegisterRequestAdmin requestAdmin) {
+    public AuthenticationResponse registerAdmin(RegisterRequest requestAdmin) {
         var user = User.builder()
                 .userName(requestAdmin.getUserName())
                 .userPhone(requestAdmin.getUserPhone())
