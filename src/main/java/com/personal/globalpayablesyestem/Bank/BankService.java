@@ -11,6 +11,7 @@ public class BankService {
     private final BankRepository bankRepository;
 
     public Bank addBank(Bank bank) {
+        System.out.println("Adding bank......");
         if (bankRepository.existsByName(bank.getName())) {
             throw new AlreadyExistException("Bank with the given name already exists.");
         }
