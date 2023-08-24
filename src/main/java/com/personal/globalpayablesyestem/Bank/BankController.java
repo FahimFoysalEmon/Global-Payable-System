@@ -1,5 +1,6 @@
 package com.personal.globalpayablesyestem.Bank;
 
+import com.personal.globalpayablesyestem.Bank.utils.BankAndBranchEndpointUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +15,7 @@ public class BankController {
 
     private final BankService bankService;
 
-    @GetMapping(value = "/banks")
-    public ResponseEntity<String> getBank() {
-        return ResponseEntity.ok("Demo all banks");
-    }
-
-    @PostMapping(value = "/bank")
+    @PostMapping(value = BankAndBranchEndpointUtils.ADD_BANK)
     public ResponseEntity<Bank> addBank(@RequestBody Bank bank) {
         return new ResponseEntity<>(bankService.addBank(bank), HttpStatus.OK);
     }
