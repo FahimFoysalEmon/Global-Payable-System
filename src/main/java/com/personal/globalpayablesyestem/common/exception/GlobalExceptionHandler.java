@@ -1,4 +1,4 @@
-package com.personal.globalpayablesyestem.exception;
+package com.personal.globalpayablesyestem.common.exception;
 
 import com.personal.globalpayablesyestem.Bank.exceptions.AlreadyExistException;
 import org.springframework.beans.ConversionNotSupportedException;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.ServletRequestBindingException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -138,12 +139,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return super.createResponseEntity(body, headers, statusCode, request);
     }
 
-    @ExceptionHandler(AlreadyExistException.class)
+    @ExceptionHandler({AlreadyExistException.class})
     public ResponseEntity<ApiError> alreadyExistExceptionHandler(AlreadyExistException ex) {
         return new ResponseEntity<>(new ApiError(409, "Already exists.", List.of(ex.getMessage())), HttpStatus.NOT_ACCEPTABLE);
     }
 
-    @ExceptionHandler(TokenExpiredException.class)
+    @ExceptionHandler({TokenExpiredException.class})
     public ResponseEntity<ApiError> tokenExpiredExceptionHandler(TokenExpiredException ex) {
         return new ResponseEntity<>(new ApiError(403, "BAD REQUEST", List.of(ex.getMessage())), HttpStatus.BAD_REQUEST);
     }

@@ -1,6 +1,7 @@
 package com.personal.globalpayablesyestem.Bank;
 
 import com.personal.globalpayablesyestem.Bank.utils.BankAndBranchEndpointUtils;
+import com.personal.globalpayablesyestem.common.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.http.HttpStatus;
@@ -18,8 +19,8 @@ public class BankController {
     private final BankService bankService;
 
     @GetMapping(value = "/banks")
-    public ResponseEntity<String> getBank() {
-        return ResponseEntity.ok("Demo all banks");
+    public ResponseEntity<ApiResponse> getBank() {
+        return new ResponseEntity<>(new ApiResponse("Success", null, null), HttpStatus.OK);
     }
 
     @PostMapping(value = BankAndBranchEndpointUtils.ADD_BANK)

@@ -1,4 +1,4 @@
-package com.personal.globalpayablesyestem.exception;
+package com.personal.globalpayablesyestem.common.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
