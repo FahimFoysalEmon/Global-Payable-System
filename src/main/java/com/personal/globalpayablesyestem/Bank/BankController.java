@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-//@RequestMapping("/api/v1/private")
+@RequestMapping("/api/v1/private")
 @Validated
 public class BankController {
 

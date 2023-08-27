@@ -145,6 +145,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(TokenExpiredException.class)
     public ResponseEntity<ApiError> tokenExpiredExceptionHandler(TokenExpiredException ex) {
-        return new ResponseEntity<>(new ApiError(403, "JWT expired", List.of(ex.getMessage())), HttpStatus.NOT_ACCEPTABLE);
+        return new ResponseEntity<>(new ApiError(403, "BAD REQUEST", List.of(ex.getMessage())), HttpStatus.BAD_REQUEST);
     }
 }
