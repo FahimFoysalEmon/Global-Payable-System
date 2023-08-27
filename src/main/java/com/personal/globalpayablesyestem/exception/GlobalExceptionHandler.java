@@ -142,4 +142,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ApiError> alreadyExistExceptionHandler(AlreadyExistException ex) {
         return new ResponseEntity<>(new ApiError(409, "Already exists.", List.of(ex.getMessage())), HttpStatus.NOT_ACCEPTABLE);
     }
+
+    @ExceptionHandler(TokenExpiredException.class)
+    public ResponseEntity<ApiError> tokenExpiredExceptionHandler(TokenExpiredException ex) {
+        return new ResponseEntity<>(new ApiError(403, "JWT expired", List.of(ex.getMessage())), HttpStatus.NOT_ACCEPTABLE);
+    }
 }
