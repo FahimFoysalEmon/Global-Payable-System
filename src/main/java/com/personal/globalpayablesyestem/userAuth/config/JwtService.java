@@ -64,16 +64,12 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-        try {
             return Jwts
                     .parserBuilder()
                     .setSigningKey(getSignInKey())
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
-        } catch (Exception e) {
-            throw new TokenExpiredException("Token Expired");
-        }
     }
 
     private Key getSignInKey() {

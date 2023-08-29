@@ -12,6 +12,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -45,9 +47,24 @@ public class User implements UserDetails {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+05:30")
     private LocalDateTime lastUpdatedOn;
 
+    public List<String> getRoleList(){
+        if(this.role.toString().length() > 0){
+            return Arrays.asList(this.role.toString().split(","));
+        }
+        return new ArrayList<>();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        List<GrantedAuthority> authorities = new ArrayList<>();
+
+        // Extract list of roles (ROLE_name)
+        this.getRoleList().forEach(r -> {
+            GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + r);
+            authorities.add(authority);
+        });
+
+        return authorities;
     }
 
     @Override
