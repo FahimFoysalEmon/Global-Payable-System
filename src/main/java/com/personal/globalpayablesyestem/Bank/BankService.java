@@ -4,6 +4,8 @@ import com.personal.globalpayablesyestem.Bank.exceptions.AlreadyExistException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class BankService {
@@ -21,5 +23,9 @@ public class BankService {
     public Bank getBank(String bankId) {
         System.out.println("Bank Details");
         return bankRepository.findById(bankId).get();
+    }
+
+    public List<Bank> getBanks() {
+        return bankRepository.findAll();
     }
 }

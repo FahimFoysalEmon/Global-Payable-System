@@ -19,19 +19,19 @@ public class BankController {
 
     private final BankService bankService;
 
-    @GetMapping(value = "/banks")
-    public ResponseEntity<ApiResponse> getBank() {
-        return new ResponseEntity<>(new ApiResponse("Success", null, null), HttpStatus.OK);
+    @GetMapping(value = BankAndBranchEndpointUtils.GET_ALL_BANKS)
+    public ResponseEntity<ApiResponse> getBanks() {
+        return new ResponseEntity<>(new ApiResponse("Success",bankService.getBanks(), null), HttpStatus.OK);
     }
 
     @PostMapping(value = BankAndBranchEndpointUtils.ADD_BANK)
-    public ResponseEntity<Bank> addBank(@RequestBody Bank bank){
-        return new ResponseEntity<>(bankService.addBank(bank), HttpStatus.OK);
+    public ResponseEntity<ApiResponse> addBank(@RequestBody Bank bank){
+        return new ResponseEntity<>(new ApiResponse("Success",bankService.addBank(bank),null), HttpStatus.OK);
     }
 
     @GetMapping(value = BankAndBranchEndpointUtils.GET_BANK)
-    public ResponseEntity<Bank> getBank(@PathVariable @BankIdMustExist String bankId) {
-        return new ResponseEntity<>(bankService.getBank(bankId), HttpStatus.OK);
+    public ResponseEntity<ApiResponse> getBank(@PathVariable @BankIdMustExist String bankId) {
+        return new ResponseEntity<>(new ApiResponse("Success", bankService.getBank(bankId), null), HttpStatus.OK);
     }
 
 }

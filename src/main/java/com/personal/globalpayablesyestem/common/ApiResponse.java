@@ -6,15 +6,14 @@ import java.util.List;
 public class ApiResponse {
 
     private String message;
-
+    private Object data;
     private List<String> errors = new ArrayList<>();
 
-    private Object data;
 
-    public ApiResponse(String message, List<String> errors, Object data) {
+    public ApiResponse(String message, Object data, List<String> errors) {
         this.message = message;
-        this.errors = errors;
         this.data = data;
+        this.errors = errors;
     }
 
     public ApiResponse(String message, List<String> errors) {

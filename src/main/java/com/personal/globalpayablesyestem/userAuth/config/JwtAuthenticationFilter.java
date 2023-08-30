@@ -1,5 +1,6 @@
 package com.personal.globalpayablesyestem.userAuth.config;
 
+import com.personal.globalpayablesyestem.userAuth.exception.TokenExpiredException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
