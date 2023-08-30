@@ -1,5 +1,6 @@
 package com.personal.globalpayablesyestem.userAuth.auth;
 
+import com.personal.globalpayablesyestem.userAuth.exception.CredentialMisMatchError;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,11 @@ public class AuthenticationController {
             @RequestBody @Valid AuthenticationRequest request
     ) {
 //        System.out.println(request.toString());
-        return ResponseEntity.ok(authenticationService.authenticate(request));
+        try{
+            return ResponseEntity.ok(authenticationService.authenticate(request));
+        } catch (Exception e) {
+            throw new CredentialMisMatchError("Invalid Credentials");
+        }
     }
 
 }

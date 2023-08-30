@@ -1,6 +1,5 @@
 package com.personal.globalpayablesyestem.userAuth.config;
 
-import com.personal.globalpayablesyestem.common.exception.TokenExpiredException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

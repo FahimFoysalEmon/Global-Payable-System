@@ -1,6 +1,8 @@
 package com.personal.globalpayablesyestem.common.exception;
 
 import com.personal.globalpayablesyestem.Bank.exceptions.AlreadyExistException;
+import com.personal.globalpayablesyestem.userAuth.exception.CredentialMisMatchError;
+import com.personal.globalpayablesyestem.userAuth.exception.TokenExpiredException;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.context.MessageSource;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.ServletRequestBindingException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -146,6 +147,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({TokenExpiredException.class})
     public ResponseEntity<ApiError> tokenExpiredExceptionHandler(TokenExpiredException ex) {
+        return new ResponseEntity<>(new ApiError(403, "BAD REQUEST", List.of(ex.getMessage())), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({CredentialMisMatchError.class})
+    public ResponseEntity<ApiError> credentialMisMatchErrorHandler(CredentialMisMatchError ex) {
         return new ResponseEntity<>(new ApiError(403, "BAD REQUEST", List.of(ex.getMessage())), HttpStatus.BAD_REQUEST);
     }
 }
