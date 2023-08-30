@@ -17,4 +17,9 @@ public class BankService {
         }
         return bankRepository.save(bank);
     }
+
+    public Bank getBank(String bankId) {
+        System.out.println("Bank Details");
+        return bankRepository.findById(bankId).get();
+    }
 }

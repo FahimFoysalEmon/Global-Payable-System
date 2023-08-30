@@ -1,6 +1,7 @@
 package com.personal.globalpayablesyestem.Bank;
 
 import com.personal.globalpayablesyestem.Bank.utils.BankAndBranchEndpointUtils;
+import com.personal.globalpayablesyestem.Bank.validators.BankIdMustExist;
 import com.personal.globalpayablesyestem.common.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
@@ -24,9 +25,13 @@ public class BankController {
     }
 
     @PostMapping(value = BankAndBranchEndpointUtils.ADD_BANK)
-    public ResponseEntity<Bank> addBank(@RequestBody Bank bank,
-                                        @AuthenticationPrincipal OAuth2ResourceServerProperties.Jwt jwt) {
+    public ResponseEntity<Bank> addBank(@RequestBody Bank bank){
         return new ResponseEntity<>(bankService.addBank(bank), HttpStatus.OK);
+    }
+
+    @GetMapping(value = BankAndBranchEndpointUtils.GET_BANK)
+    public ResponseEntity<Bank> getBank(@PathVariable @BankIdMustExist String bankId) {
+        return new ResponseEntity<>(bankService.getBank(bankId), HttpStatus.OK);
     }
 
 }

@@ -3,6 +3,8 @@ package com.personal.globalpayablesyestem.common.exception;
 import com.personal.globalpayablesyestem.Bank.exceptions.AlreadyExistException;
 import com.personal.globalpayablesyestem.userAuth.exception.CredentialMisMatchError;
 import com.personal.globalpayablesyestem.userAuth.exception.TokenExpiredException;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.context.MessageSource;
@@ -26,6 +28,7 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestControllerAdvice
@@ -153,5 +156,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({CredentialMisMatchError.class})
     public ResponseEntity<ApiError> credentialMisMatchErrorHandler(CredentialMisMatchError ex) {
         return new ResponseEntity<>(new ApiError(403, "BAD REQUEST", List.of(ex.getMessage())), HttpStatus.BAD_REQUEST);
+    }
+
+
+    @ExceptionHandler({ ConstraintViolationException.class })
+    protected ResponseEntity<Object> handleConstraintViolation(final ConstraintViolationException ex, final WebRequest request) {
+
+        final List<String> errors = new ArrayList<String>();
+        for (final ConstraintViolation<?> violation : ex.getConstraintViolations()) {
+            errors.add(violation.getRootBeanClass().getName() + " " + violation.getPropertyPath() + ": "
+                    + violation.getMessage());
+        }
+
+        final ApiError apiError = new ApiError(404, ex.getMessage(), errors);
+        return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getCode());
     }
 }
