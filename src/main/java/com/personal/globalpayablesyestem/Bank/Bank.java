@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ public class Bank {
     @NotNull
     private boolean status;
 
+    @Cascade(CascadeType.ALL)
     @OneToMany
     private List<Branch> branches = new ArrayList<>();
 

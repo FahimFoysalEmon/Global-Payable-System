@@ -30,7 +30,8 @@ public class BranchController {
     }
 
     @GetMapping(value = BankAndBranchEndpointUtils.GET_BRANCH)
-    public ResponseEntity<ApiResponse> getBranch(@PathVariable @BankIdMustExist String bankId, @PathVariable @BranchIdMustExist String branchId) {
+    public ResponseEntity<ApiResponse> getBranch(@PathVariable @BankIdMustExist String bankId,
+                                                 @PathVariable @BranchIdMustExist String branchId) {
         return new ResponseEntity<>(new ApiResponse("Success", branchService.getBranch(bankId, branchId), null), HttpStatus.OK);
     }
 
