@@ -1,5 +1,6 @@
 package com.personal.globalpayablesyestem.userAuth.config;
 
+import com.personal.globalpayablesyestem.userAuth.exception.TokenExpiredException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -22,7 +23,11 @@ public class JwtService {
     private String SECRET_KEY;
 
     public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+        try{
+            return extractClaim(token, Claims::getSubject);
+        } catch (Exception e) {
+            throw new TokenExpiredException("Token invalid");
+        }
     }
 
     public String generateToken(UserDetails userDetails) {

@@ -34,4 +34,18 @@ public class BankController {
         return new ResponseEntity<>(new ApiResponse("Success", bankService.getBank(bankId), null), HttpStatus.OK);
     }
 
+
+    @PutMapping(value = BankAndBranchEndpointUtils.UPDATE_BANK)
+    public ResponseEntity<ApiResponse> updateBank(@PathVariable @BankIdMustExist String bankId,
+                                                  @RequestBody Bank bank) {
+        return new ResponseEntity<>(new ApiResponse("Success", bankService.updateBank(bankId, bank), null), HttpStatus.OK);
+    }
+
+
+    @DeleteMapping(value = BankAndBranchEndpointUtils.DELETE_BANK)
+    public ResponseEntity<ApiResponse> deleteBank(@PathVariable @BankIdMustExist String bankId) {
+        bankService.deleteBank(bankId);
+        return new ResponseEntity<>(new ApiResponse("Success", null , null), HttpStatus.OK);
+    }
+
 }
