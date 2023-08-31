@@ -17,12 +17,11 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class BranchController {
 
-    private final BankRepository bankRepository;
     private final BranchService branchService;
 
     @GetMapping(value = BankAndBranchEndpointUtils.GET_ALL_BRANCHES)
-    public ResponseEntity<ApiResponse> getBranches(@PathVariable String bankId) {
-        return new ResponseEntity<>(new ApiResponse("Success",branchService.getBranches(bankId), null), HttpStatus.OK);
+    public ResponseEntity<ApiResponse> getBranches() {
+        return new ResponseEntity<>(new ApiResponse("Success",branchService.getBranches(), null), HttpStatus.OK);
     }
 
     @PostMapping(value = BankAndBranchEndpointUtils.ADD_BRANCH)
