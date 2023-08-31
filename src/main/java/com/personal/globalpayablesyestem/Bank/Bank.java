@@ -32,12 +32,10 @@ public class Bank {
     private boolean status;
 
     @OneToMany
-    @JsonIgnore
     private List<Branch> branches = new ArrayList<>();
 
     public List<Branch> getBranches() {
         return branches;
     }
-
 
 }
