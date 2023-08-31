@@ -1,6 +1,8 @@
 package com.personal.globalpayablesyestem.Bank;
 
 import com.personal.globalpayablesyestem.Bank.utils.BankAndBranchEndpointUtils;
+import com.personal.globalpayablesyestem.Bank.validators.BankIdMustExist;
+import com.personal.globalpayablesyestem.common.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.http.HttpStatus;
@@ -11,21 +13,39 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/private")
+@RequestMapping("/api/v1/private/admin")
 @Validated
 public class BankController {
 
     private final BankService bankService;
 
-    @GetMapping(value = "/banks")
-    public ResponseEntity<String> getBank() {
-        return ResponseEntity.ok("Demo all banks");
+    @GetMapping(value = BankAndBranchEndpointUtils.GET_ALL_BANKS)
+    public ResponseEntity<ApiResponse> getBanks() {
+        return new ResponseEntity<>(new ApiResponse("Success",bankService.getBanks(), null), HttpStatus.OK);
     }
 
     @PostMapping(value = BankAndBranchEndpointUtils.ADD_BANK)
-    public ResponseEntity<Bank> addBank(@RequestBody Bank bank,
-                                        @AuthenticationPrincipal OAuth2ResourceServerProperties.Jwt jwt) {
-        return new ResponseEntity<>(bankService.addBank(bank), HttpStatus.OK);
+    public ResponseEntity<ApiResponse> addBank(@RequestBody Bank bank){
+        return new ResponseEntity<>(new ApiResponse("Success",bankService.addBank(bank),null), HttpStatus.OK);
+    }
+
+    @GetMapping(value = BankAndBranchEndpointUtils.GET_BANK)
+    public ResponseEntity<ApiResponse> getBank(@PathVariable @BankIdMustExist String bankId) {
+        return new ResponseEntity<>(new ApiResponse("Success", bankService.getBank(bankId), null), HttpStatus.OK);
+    }
+
+
+    @PutMapping(value = BankAndBranchEndpointUtils.UPDATE_BANK)
+    public ResponseEntity<ApiResponse> updateBank(@PathVariable @BankIdMustExist String bankId,
+                                                  @RequestBody Bank bank) {
+        return new ResponseEntity<>(new ApiResponse("Success", bankService.updateBank(bankId, bank), null), HttpStatus.OK);
+    }
+
+
+    @DeleteMapping(value = BankAndBranchEndpointUtils.DELETE_BANK)
+    public ResponseEntity<ApiResponse> deleteBank(@PathVariable @BankIdMustExist String bankId) {
+        bankService.deleteBank(bankId);
+        return new ResponseEntity<>(new ApiResponse("Success", null , null), HttpStatus.OK);
     }
 
 }
