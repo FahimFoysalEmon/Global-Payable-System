@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Validated
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/private/admin")
 public class BranchController {
 
     private final BranchService branchService;
@@ -25,7 +26,8 @@ public class BranchController {
     }
 
     @PostMapping(value = BankAndBranchEndpointUtils.ADD_BRANCH)
-    public ResponseEntity<ApiResponse> addBranch(@PathVariable String bankId , @RequestBody Branch branch){
+    public ResponseEntity<ApiResponse> addBranch(@PathVariable @BankIdMustExist String bankId , @RequestBody Branch branch){
+        System.out.println("ADD Branch called!!");
         return new ResponseEntity<>(new ApiResponse("Success",branchService.addBranch(bankId, branch),null), HttpStatus.OK);
     }
 
