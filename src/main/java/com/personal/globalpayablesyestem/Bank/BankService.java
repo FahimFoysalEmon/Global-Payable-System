@@ -32,6 +32,9 @@ public class BankService {
 
     public Bank updateBank(String bankId, Bank bank) {
         Bank bankToBeUpdated = bankRepository.findById(bankId).get();
+        if (bankToBeUpdated.getName().equals(bank.getName())){
+            throw new AlreadyExistException("You can not change the Bank name to the existing one");
+        }
         BeanUtils.copyProperties(bank, bankToBeUpdated);
         bankToBeUpdated.setId(bankId);
         return bankRepository.save(bankToBeUpdated);

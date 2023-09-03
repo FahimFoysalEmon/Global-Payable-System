@@ -30,10 +30,13 @@ public class BranchService {
         }
 
         // If the branch doesn't exist, add it to the bank and save
-        bank.getBranches().add(branch);
+
+        Branch savedBranch = branchRepository.save(branch);
+
+        bank.getBranches().add(savedBranch);
         bankRepository.save(bank);
 
-        return branch;
+        return savedBranch;
     }
 
     public Branch getBranch(String bankId, String branchId) {
