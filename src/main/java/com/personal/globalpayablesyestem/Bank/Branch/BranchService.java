@@ -3,6 +3,7 @@ package com.personal.globalpayablesyestem.Bank.Branch;
 import com.personal.globalpayablesyestem.Bank.Bank;
 import com.personal.globalpayablesyestem.Bank.BankRepository;
 import com.personal.globalpayablesyestem.Bank.exceptions.AlreadyExistException;
+import com.personal.globalpayablesyestem.userAuth.exception.CredentialMisMatchError;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -40,8 +41,18 @@ public class BranchService {
     }
 
     public Branch getBranch(String bankId, String branchId) {
-        return branchRepository.findByBankIdAndId(bankId, branchId);
+        Bank bank = bankRepository.findById(bankId).orElse(null); // Use 'orElse' to handle the case where the bank is not found
+        if (bank != null) {
+            List<Branch> branches = bank.getBranches();
+            for (Branch branch : branches) {
+                if (branch.getId().equals(branchId)) {
+                    return branch;
+                }
+            }
+        }
+        throw new CredentialMisMatchError("Credential Mismatch Error");
     }
+
 
     public Branch updateBranch(String bankId, String branchId, Branch branch) {
         Branch branchToBeUpdated = branchRepository.findByBankIdAndId(bankId, branchId);
