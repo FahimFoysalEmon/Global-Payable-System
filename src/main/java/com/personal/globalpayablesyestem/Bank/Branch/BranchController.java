@@ -39,17 +39,16 @@ public class BranchController {
 
 
     @PutMapping(value = BankAndBranchEndpointUtils.UPDATE_BRANCH)
-    public ResponseEntity<ApiResponse> updateBranch(@PathVariable @BankIdMustExist String bankId,
-                                                  @PathVariable @BranchIdMustExist String branchId,
+    public ResponseEntity<ApiResponse> updateBranch(@PathVariable @BranchIdMustExist String branchId,
                                                   @RequestBody Branch branch) {
-        return new ResponseEntity<>(new ApiResponse("Success", branchService.updateBranch(bankId, branchId, branch), null), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse("Success", branchService.updateBranch(branchId, branch), null), HttpStatus.OK);
     }
 
 
     @DeleteMapping(value = BankAndBranchEndpointUtils.DELETE_BRANCH)
     public ResponseEntity<ApiResponse> deleteBranch(@PathVariable @BankIdMustExist String bankId,
                                                     @PathVariable @BranchIdMustExist String branchId) {
-        branchService.deleteBranch(bankId, branchId);
+        branchService.deleteBranch(bankId,branchId);
         return new ResponseEntity<>(new ApiResponse("Success", null , null), HttpStatus.OK);
     }
 
