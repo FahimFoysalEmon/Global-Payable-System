@@ -2,6 +2,7 @@ package com.personal.globalpayablesyestem.Bank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.personal.globalpayablesyestem.Bank.Branch.Branch;
+import com.personal.globalpayablesyestem.Country.Country;
 import com.personal.globalpayablesyestem.userAuth.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -32,6 +33,10 @@ public class Bank {
 
     @NotNull
     private boolean status;
+
+    @ManyToOne(cascade = jakarta.persistence.CascadeType.REMOVE)
+    @JsonIgnore
+    private Country country;
 
     @Cascade(CascadeType.ALL)
     @OneToMany
