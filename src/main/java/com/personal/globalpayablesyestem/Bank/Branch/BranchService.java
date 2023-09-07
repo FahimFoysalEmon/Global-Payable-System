@@ -3,9 +3,13 @@ package com.personal.globalpayablesyestem.Bank.Branch;
 import com.personal.globalpayablesyestem.Bank.Bank;
 import com.personal.globalpayablesyestem.Bank.BankRepository;
 import com.personal.globalpayablesyestem.Bank.exceptions.AlreadyExistException;
+import com.personal.globalpayablesyestem.userAuth.exception.CredentialMisMatchError;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -40,21 +44,50 @@ public class BranchService {
     }
 
     public Branch getBranch(String bankId, String branchId) {
-        return branchRepository.findByBankIdAndId(bankId, branchId);
+        Bank bank = bankRepository.findById(bankId).orElse(null); // Use 'orElse' to handle the case where the bank is not found
+        if (bank != null) {
+            List<Branch> branches = bank.getBranches();
+            for (Branch branch : branches) {
+                if (branch.getId().equals(branchId)) {
+                    return branch;
+                }
+            }
+        }
+        throw new CredentialMisMatchError("Credential Mismatch Error");
     }
 
-    public Branch updateBranch(String bankId, String branchId, Branch branch) {
-        Branch branchToBeUpdated = branchRepository.findByBankIdAndId(bankId, branchId);
-        branchToBeUpdated.setName(branch.getName());
-        branchToBeUpdated.setStatus(branch.isStatus());
-        branchToBeUpdated.setSwiftCode(branch.getSwiftCode());
-        branchToBeUpdated.setRoutingNumber(branch.getRoutingNumber());
 
+    public Branch updateBranch(String branchId, Branch branch) {
+        Branch branchToBeUpdated = branchRepository.findById(branchId).get();
+
+        if (branchToBeUpdated.getName().equals(branch.getName())) {
+            throw new AlreadyExistException("You can not change the Branch name to the existing one");
+        }
+        BeanUtils.copyProperties(branch, branchToBeUpdated);
+        branchToBeUpdated.setId(branchId);
         return branchRepository.save(branchToBeUpdated);
     }
 
-
+    @Transactional
     public void deleteBranch(String bankId, String branchId) {
-        branchRepository.deleteById(branchId);
+        Branch branch = branchRepository.findById(branchId).get();
+
+        Bank bank = bankRepository.findById(bankId).get();
+
+        System.out.println(bank.getName());
+
+        List<Branch> branchesToBeSaved = new ArrayList<>();
+
+        bank.getBranches().forEach(branchToBeAdded -> {
+            if (!branchToBeAdded.getName().equals(branch.getName())) {
+                branchesToBeSaved.add(branchToBeAdded);
+            }
+        });
+
+        bank.setBranches(branchesToBeSaved);
+
+        bankRepository.save(bank);
+
+        branchRepository.delete(branch);
     }
 }

@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 public interface BranchRepository extends JpaRepository<Branch, String> {
 
     boolean existsByName(String name);
-    Branch findByBankIdAndId(String bankId, String id);
+    Branch findByBankIdAndId(String bankId, String branchId);
 
 }
