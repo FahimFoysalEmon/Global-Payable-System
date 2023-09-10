@@ -59,10 +59,6 @@ public class BranchService {
 
     public Branch updateBranch(String branchId, Branch branch) {
         Branch branchToBeUpdated = branchRepository.findById(branchId).get();
-
-        if (branchToBeUpdated.getName().equals(branch.getName())) {
-            throw new AlreadyExistException("You can not change the Branch name to the existing one");
-        }
         BeanUtils.copyProperties(branch, branchToBeUpdated);
         branchToBeUpdated.setId(branchId);
         return branchRepository.save(branchToBeUpdated);

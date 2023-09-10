@@ -30,8 +30,8 @@ public class CountryService {
 
     public Country updateCountry(String countryId, Country country) {
         Country countryToBeUpdated = countryRepository.findById(countryId).get();
-        if (countryToBeUpdated.getName().equals(country.getName())) {
-            throw new AlreadyExistException("This country name already exists");
+        if (!countryToBeUpdated.getName().equals(country.getName())) {
+            throw new AlreadyExistException("Country name can not be modified");
         }
         BeanUtils.copyProperties(country, countryToBeUpdated);
         countryToBeUpdated.setId(countryId);
