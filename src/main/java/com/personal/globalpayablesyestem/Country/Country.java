@@ -41,9 +41,6 @@ public class Country {
     @NotEmpty
     private String currency;
 
-    @NotEmpty
-    private String phone;
-
     @NotNull(message = "status is mandatory")
     private boolean status;
 
