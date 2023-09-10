@@ -2,6 +2,7 @@ package com.personal.globalpayablesyestem.Bank;
 
 import com.personal.globalpayablesyestem.Bank.utils.BankAndBranchEndpointUtils;
 import com.personal.globalpayablesyestem.Bank.validators.BankIdMustExist;
+import com.personal.globalpayablesyestem.Country.validators.CountryIdMustExist;
 import com.personal.globalpayablesyestem.common.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
@@ -25,13 +26,14 @@ public class BankController {
     }
 
     @PostMapping(value = BankAndBranchEndpointUtils.ADD_BANK)
-    public ResponseEntity<ApiResponse> addBank(@RequestBody Bank bank){
-        return new ResponseEntity<>(new ApiResponse("Success",bankService.addBank(bank),null), HttpStatus.OK);
+    public ResponseEntity<ApiResponse> addBank(@PathVariable @CountryIdMustExist String countryId , @RequestBody Bank bank){
+        return new ResponseEntity<>(new ApiResponse("Success",bankService.addBank(countryId,bank),null), HttpStatus.OK);
     }
 
     @GetMapping(value = BankAndBranchEndpointUtils.GET_BANK)
-    public ResponseEntity<ApiResponse> getBank(@PathVariable @BankIdMustExist String bankId) {
-        return new ResponseEntity<>(new ApiResponse("Success", bankService.getBank(bankId), null), HttpStatus.OK);
+    public ResponseEntity<ApiResponse> getBank(@PathVariable @CountryIdMustExist String countryId,
+                                               @PathVariable @BankIdMustExist String bankId) {
+        return new ResponseEntity<>(new ApiResponse("Success", bankService.getBank(countryId, bankId), null), HttpStatus.OK);
     }
 
 
@@ -43,8 +45,9 @@ public class BankController {
 
 
     @DeleteMapping(value = BankAndBranchEndpointUtils.DELETE_BANK)
-    public ResponseEntity<ApiResponse> deleteBank(@PathVariable @BankIdMustExist String bankId) {
-        bankService.deleteBank(bankId);
+    public ResponseEntity<ApiResponse> deleteBank(@PathVariable @CountryIdMustExist String countryId,
+                                                  @PathVariable @BankIdMustExist String bankId) {
+        bankService.deleteBank(countryId,bankId);
         return new ResponseEntity<>(new ApiResponse("Success", null , null), HttpStatus.OK);
     }
 

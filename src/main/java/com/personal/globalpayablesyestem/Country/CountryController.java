@@ -43,9 +43,8 @@ public class CountryController {
 
 
     @DeleteMapping(value = CountryEndpointUtils.DELETE_COUNTRY)
-    public ResponseEntity<ApiResponse> deleteCountry(@PathVariable @CountryIdMustExist String countryId,
-                                                     @PathVariable @BankIdMustExist String bankId) {
-        countryService.deleteCountry(countryId, bankId);
+    public ResponseEntity<ApiResponse> deleteCountry(@PathVariable @CountryIdMustExist String countryId) {
+        countryService.deleteCountry(countryId);
         return new ResponseEntity<>(new ApiResponse("Success", null , null), HttpStatus.OK);
     }
 
