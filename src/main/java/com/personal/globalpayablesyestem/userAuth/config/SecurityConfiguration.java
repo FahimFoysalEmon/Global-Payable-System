@@ -1,6 +1,5 @@
 package com.personal.globalpayablesyestem.userAuth.config;
 
-import com.personal.globalpayablesyestem.Bank.utils.BankAndBranchEndpointUtils;
 import com.personal.globalpayablesyestem.userAuth.auth.JwtAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
