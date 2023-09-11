@@ -27,6 +27,8 @@ public class BankService {
         boolean bankExists = country.getBanks().stream()
                 .anyMatch(existingBank -> existingBank.getName().equals(bank.getName()));
 
+        System.out.println(bankExists);
+
         if (bankExists) {
             throw new AlreadyExistException("Bank already exists in this Country");
         }
