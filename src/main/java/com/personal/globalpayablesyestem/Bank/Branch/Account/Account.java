@@ -27,7 +27,8 @@ public class Account {
     private String accountBalance;
     private String accountHolderName;
 
+    private TypeOfAccount typeOfAccount;
+
     @OneToOne
     private Branch assosiatedBranch;
-
 }
