@@ -31,6 +31,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests()
                 .requestMatchers("/api/v1/auth/**").permitAll()
                 .requestMatchers("/api/v1/private/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/v1/private/super-admin/**").hasRole("SUPER_ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
