@@ -1,6 +1,5 @@
 package com.personal.globalpayablesyestem.userAuth.config;
 
-import com.personal.globalpayablesyestem.Bank.utils.BankAndBranchEndpointUtils;
 import com.personal.globalpayablesyestem.userAuth.auth.JwtAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -31,7 +30,9 @@ public class SecurityConfiguration {
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/v1/auth/**").permitAll()
+                .requestMatchers("/api/v1/private/user/**").hasRole("USER")
                 .requestMatchers("/api/v1/private/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/v1/private/super-admin/**").hasRole("SUPER_ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()

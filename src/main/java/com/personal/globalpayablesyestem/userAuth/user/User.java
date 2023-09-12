@@ -1,9 +1,11 @@
 package com.personal.globalpayablesyestem.userAuth.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.personal.globalpayablesyestem.Bank.Bank;
+import com.personal.globalpayablesyestem.bank.branch.Branch;
+import com.personal.globalpayablesyestem.bank.branch.account.Account;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -34,6 +36,9 @@ public class User implements UserDetails {
     private String userEmail;
     private String userPhone;
     private String userPassword;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    private List<Account> accounts = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Role role;

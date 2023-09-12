@@ -1,6 +1,6 @@
 package com.personal.globalpayablesyestem.common.exception;
 
-import com.personal.globalpayablesyestem.Bank.exceptions.AlreadyExistException;
+import com.personal.globalpayablesyestem.bank.exceptions.AlreadyExistException;
 import com.personal.globalpayablesyestem.userAuth.exception.CredentialMisMatchError;
 import com.personal.globalpayablesyestem.userAuth.exception.TokenExpiredException;
 import jakarta.validation.ConstraintViolation;
