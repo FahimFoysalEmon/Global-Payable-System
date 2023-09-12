@@ -1,14 +1,19 @@
 package com.personal.globalpayablesyestem.bank.branch.account;
 
 import com.personal.globalpayablesyestem.bank.branch.account.utils.endpoint.AccountEndpointUtils;
+import com.personal.globalpayablesyestem.bank.validators.BankIdMustExist;
+import com.personal.globalpayablesyestem.bank.validators.BranchIdMustExist;
 import com.personal.globalpayablesyestem.common.ApiResponse;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -18,8 +23,11 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping(AccountEndpointUtils.ADD_ACCOUNT)
-    public ResponseEntity<ApiResponse> addAccount(@PathVariable String branchId){
-        return new ResponseEntity<>(new ApiResponse("Success", accountService.addAccount(branchId), null), HttpStatus.OK);
+    public ResponseEntity<ApiResponse> addAccount(@PathVariable @BankIdMustExist String bankId,
+                                                  @PathVariable @BranchIdMustExist String branchId,
+                                                  @RequestParam @NotEmpty @NotNull String initialDeposit){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return new ResponseEntity<>(new ApiResponse("Success", accountService.addAccount(bankId, branchId, initialDeposit, auth.getName()), null), HttpStatus.OK);
     }
 
 }

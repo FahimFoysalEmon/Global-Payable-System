@@ -37,7 +37,7 @@ public class User implements UserDetails {
     private String userPhone;
     private String userPassword;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private List<Account> accounts = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
