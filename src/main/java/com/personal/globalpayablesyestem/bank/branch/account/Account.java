@@ -1,11 +1,9 @@
 package com.personal.globalpayablesyestem.bank.branch.account;
 
-import com.personal.globalpayablesyestem.bank.branch.account.enums.TypeOfAccount;
+import com.personal.globalpayablesyestem.bank.branch.account.utils.enums.TypeOfAccount;
 import com.personal.globalpayablesyestem.bank.branch.Branch;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import com.personal.globalpayablesyestem.userAuth.user.User;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +27,9 @@ public class Account {
     private String accountHolderName;
 
     private TypeOfAccount typeOfAccount;
+
+    @ManyToOne
+    private User user;
 
     @OneToOne
     private Branch assosiatedBranch;
