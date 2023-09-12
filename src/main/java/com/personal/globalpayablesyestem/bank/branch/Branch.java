@@ -2,6 +2,7 @@ package com.personal.globalpayablesyestem.bank.branch;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.personal.globalpayablesyestem.bank.Bank;
+import com.personal.globalpayablesyestem.bank.branch.account.Account;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -38,5 +39,9 @@ public class Branch {
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JsonIgnore
     private Bank bank;
+
+    @OneToOne
+    @JsonIgnore
+    private Account account;
 
 }
