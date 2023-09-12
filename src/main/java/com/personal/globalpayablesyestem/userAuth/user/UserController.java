@@ -10,4 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/private/super-admin")
 @Validated
 public class UserController {
+
+    private final UserService userService;
+
+
+
 }
