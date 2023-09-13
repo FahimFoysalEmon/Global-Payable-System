@@ -1,10 +1,9 @@
 package com.personal.globalpayablesyestem.country;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.personal.globalpayablesyestem.bank.Bank;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import com.personal.globalpayablesyestem.userAuth.user.User;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -42,6 +41,10 @@ public class Country {
 
     @NotNull(message = "status is mandatory")
     private boolean status;
+
+    @OneToOne
+    @JsonIgnore
+    private User user;
 
     @Cascade(CascadeType.ALL)
     @OneToMany

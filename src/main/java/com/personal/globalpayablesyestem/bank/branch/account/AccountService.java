@@ -35,7 +35,7 @@ public class AccountService {
             throw new CredentialMisMatchError("This bank does not have this branch");
         }
 
-
+        System.out.println(bank.getCountry().getName());
 
         Account account = new Account();
         return null;
