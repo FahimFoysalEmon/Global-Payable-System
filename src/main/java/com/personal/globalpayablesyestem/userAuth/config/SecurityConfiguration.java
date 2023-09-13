@@ -30,6 +30,7 @@ public class SecurityConfiguration {
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/v1/auth/**").permitAll()
+                .requestMatchers("/api/v1/public/**").permitAll()
                 .requestMatchers("/api/v1/private/user/**").hasAnyRole("USER","ADMIN","SUPER_ADMIN")
                 .requestMatchers("/api/v1/private/admin/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
                 .requestMatchers("/api/v1/private/super-admin/**").hasRole("SUPER_ADMIN")
