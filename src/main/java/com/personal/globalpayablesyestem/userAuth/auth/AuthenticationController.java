@@ -36,6 +36,7 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody @Valid AuthenticationRequest request
     ) {
+
         try{
             return ResponseEntity.ok(authenticationService.authenticate(request));
         } catch (Exception e) {
