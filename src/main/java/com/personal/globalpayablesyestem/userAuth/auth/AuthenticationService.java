@@ -3,6 +3,7 @@ package com.personal.globalpayablesyestem.userAuth.auth;
 import com.personal.globalpayablesyestem.country.Country;
 import com.personal.globalpayablesyestem.country.CountryRepository;
 import com.personal.globalpayablesyestem.userAuth.config.JwtService;
+import com.personal.globalpayablesyestem.userAuth.exception.CredentialMisMatchError;
 import com.personal.globalpayablesyestem.userAuth.user.UserRepository;
 import com.personal.globalpayablesyestem.userAuth.user.User;
 import com.personal.globalpayablesyestem.userAuth.user.Role;
@@ -25,15 +26,17 @@ public class AuthenticationService {
 
     private final CountryRepository countryRepository;
 
-    public AuthenticationResponse register(String countryId, RegisterRequest request) {
+    public AuthenticationResponse register(RegisterRequest request) {
 
-        Country country = countryRepository.findById(countryId).get();
+        if (!countryRepository.existsByName(request.getCountry())) {
+            throw new CredentialMisMatchError("No country with this name");
+        }
 
         var user = User.builder()
                 .userName(request.getUserName())
                 .userPhone(request.getUserPhone())
                 .userEmail(request.getUserEmail())
-                .country(country)
+                .country(request.getCountry())
                 .userPassword(passwordEncoder.encode(request.getUserPassword()))
                 .role(Role.USER)
                 .build();
@@ -41,19 +44,16 @@ public class AuthenticationService {
 
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder().token(jwtToken).build();
-
     }
 
 
-    public AuthenticationResponse registerAdmin(String countryId, RegisterRequest requestAdmin) {
-
-        Country country = countryRepository.findById(countryId).get();
+    public AuthenticationResponse registerAdmin(RegisterRequest requestAdmin) {
 
         var user = User.builder()
                 .userName(requestAdmin.getUserName())
                 .userPhone(requestAdmin.getUserPhone())
                 .userEmail(requestAdmin.getUserEmail())
-                .country(country)
+                .country(requestAdmin.getCountry())
                 .userPassword(passwordEncoder.encode(requestAdmin.getUserPassword()))
                 .role(Role.ADMIN)
                 .build();

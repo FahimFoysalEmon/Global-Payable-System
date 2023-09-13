@@ -37,9 +37,7 @@ public class User implements UserDetails {
     private String userEmail;
     private String userPhone;
     private String userPassword;
-
-    @OneToOne
-    private Country country;
+    private String country;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private List<Account> accounts = new ArrayList<>();

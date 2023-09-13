@@ -1,6 +1,6 @@
 package com.personal.globalpayablesyestem.userAuth.auth;
 
-import com.personal.globalpayablesyestem.country.validators.CountryIdMustExist;
+
 import com.personal.globalpayablesyestem.userAuth.exception.CredentialMisMatchError;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,20 +16,18 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
-    @PostMapping("/country/{countryId}/register")
+    @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
-            @PathVariable @CountryIdMustExist String countryId,
             @RequestBody RegisterRequest request
     ) {
-        return ResponseEntity.ok(authenticationService.register(countryId,request));
+        return ResponseEntity.ok(authenticationService.register(request));
     }
 
-    @PostMapping("/country/{countryId}/register/admin")
+    @PostMapping("/register/admin")
     public ResponseEntity<AuthenticationResponse> registerAdmin(
-            @PathVariable @CountryIdMustExist String countryId,
             @RequestBody RegisterRequest request
     ) {
-        return ResponseEntity.ok(authenticationService.registerAdmin(countryId, request));
+        return ResponseEntity.ok(authenticationService.registerAdmin(request));
     }
 
     @PostMapping("/authentication")

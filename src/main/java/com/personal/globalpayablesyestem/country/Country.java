@@ -42,10 +42,6 @@ public class Country {
     @NotNull(message = "status is mandatory")
     private boolean status;
 
-    @OneToOne
-    @JsonIgnore
-    private User user;
-
     @Cascade(CascadeType.ALL)
     @OneToMany
     private List<Bank> banks = new ArrayList<>();
