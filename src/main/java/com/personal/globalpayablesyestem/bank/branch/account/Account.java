@@ -26,7 +26,9 @@ public class Account {
     private String accountBalance;
     private String accountHolderName;
 
-    private TypeOfAccount typeOfAccount;
+    private String typeOfAccount;
+
+    private String accountCurrency;
 
     @ManyToOne
     private User user;
