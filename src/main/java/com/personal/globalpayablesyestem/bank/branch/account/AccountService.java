@@ -23,6 +23,9 @@ public class AccountService {
     private final UserRepository userRepository;
 
     public Account addAccount(String bankId,  String currency, String branchId, String initialDeposit, String username) {
+
+        System.out.println("Came to addAccount service!!");
+
         Branch branch = branchRepository.findById(branchId).get();
         Bank bank = bankRepository.findById(bankId).get();
         User user = userRepository.findByUserEmail(username).get();
@@ -37,6 +40,12 @@ public class AccountService {
             }
         }
 
+        for (Account account : user.getAccounts()) {
+            if (account.getAssosiatedBranch().getName().equals(branch.getName())) {
+                throw new CredentialMisMatchError("This user has already an account in this branch");
+            }
+        }
+
         if (!checkingBranch) {
             throw new CredentialMisMatchError("This bank does not have this branch");
         } else {
@@ -45,10 +54,11 @@ public class AccountService {
             account.setAccountBalance(initialDeposit);
             account.setAccountCurrency(currency);
             account.setAccountNumber(UUID.randomUUID().toString());
-            account.setTypeOfAccount("SAVING"); // or TypeOfAccount.CHECKING
+            account.setTypeOfAccount(TypeOfAccount.SAVING); // or TypeOfAccount.CHECKING
             account.setAccountHolderName(username);
             account.setAssosiatedBranch(branch);
             account.setAccountCurrency(currency);
+            account.setUser(user);
 
             return accountRepository.save(account);
         }
