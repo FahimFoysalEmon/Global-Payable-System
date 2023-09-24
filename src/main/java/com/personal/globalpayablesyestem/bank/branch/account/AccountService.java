@@ -4,9 +4,14 @@ import com.personal.globalpayablesyestem.bank.Bank;
 import com.personal.globalpayablesyestem.bank.BankRepository;
 import com.personal.globalpayablesyestem.bank.branch.Branch;
 import com.personal.globalpayablesyestem.bank.branch.BranchRepository;
+import com.personal.globalpayablesyestem.bank.branch.account.utils.enums.TypeOfAccount;
 import com.personal.globalpayablesyestem.userAuth.exception.CredentialMisMatchError;
+import com.personal.globalpayablesyestem.userAuth.user.User;
+import com.personal.globalpayablesyestem.userAuth.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -15,12 +20,16 @@ public class AccountService {
     private final AccountRepository accountRepository;
     private final BankRepository bankRepository;
     private final BranchRepository branchRepository;
+    private final UserRepository userRepository;
 
-    public Account addAccount(String bankId, String branchId, String initialDeposit, String username) {
+    public Account addAccount(String bankId,  String currency, String branchId, String initialDeposit, String username) {
+
+        System.out.println("Came to addAccount service!!");
+
         Branch branch = branchRepository.findById(branchId).get();
         Bank bank = bankRepository.findById(bankId).get();
+        User user = userRepository.findByUserEmail(username).get();
 
-        System.out.println(initialDeposit+"-------------"+username);
 
         boolean checkingBranch = false;
 
@@ -31,13 +40,28 @@ public class AccountService {
             }
         }
 
-        if (!checkingBranch) {
-            throw new CredentialMisMatchError("This bank does not have this branch");
+        for (Account account : user.getAccounts()) {
+            if (account.getAssosiatedBranch().getName().equals(branch.getName())) {
+                throw new CredentialMisMatchError("This user has already an account in this branch");
+            }
         }
 
+        if (!checkingBranch) {
+            throw new CredentialMisMatchError("This bank does not have this branch");
+        } else {
+            Account account = new Account();
 
+            account.setAccountBalance(initialDeposit);
+            account.setAccountCurrency(currency);
+            account.setAccountNumber(UUID.randomUUID().toString());
+            account.setTypeOfAccount(TypeOfAccount.SAVING); // or TypeOfAccount.CHECKING
+            account.setAccountHolderName(username);
+            account.setAssosiatedBranch(branch);
+            account.setAccountCurrency(currency);
+            account.setUser(user);
 
-        Account account = new Account();
-        return null;
+            return accountRepository.save(account);
+        }
+
     }
 }

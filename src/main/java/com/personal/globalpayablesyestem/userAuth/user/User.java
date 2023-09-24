@@ -3,6 +3,7 @@ package com.personal.globalpayablesyestem.userAuth.user;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.personal.globalpayablesyestem.bank.branch.Branch;
 import com.personal.globalpayablesyestem.bank.branch.account.Account;
+import com.personal.globalpayablesyestem.country.Country;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
@@ -36,8 +37,9 @@ public class User implements UserDetails {
     private String userEmail;
     private String userPhone;
     private String userPassword;
+    private String country;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Account> accounts = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)

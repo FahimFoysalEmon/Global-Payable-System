@@ -25,9 +25,10 @@ public class AccountController {
     @PostMapping(AccountEndpointUtils.ADD_ACCOUNT)
     public ResponseEntity<ApiResponse> addAccount(@PathVariable @BankIdMustExist String bankId,
                                                   @PathVariable @BranchIdMustExist String branchId,
+                                                  @RequestParam @NotEmpty @NotNull String currency,
                                                   @RequestParam @NotEmpty @NotNull String initialDeposit){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return new ResponseEntity<>(new ApiResponse("Success", accountService.addAccount(bankId, branchId, initialDeposit, auth.getName()), null), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse("Success", accountService.addAccount(bankId, currency ,branchId, initialDeposit, auth.getName()), null), HttpStatus.OK);
     }
 
 }

@@ -14,7 +14,6 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/private/super-admin")
 @Validated
 public class UserController {
 
@@ -24,5 +23,12 @@ public class UserController {
     public ResponseEntity<ApiResponse> getAllUsers(){
         return new ResponseEntity<>(new ApiResponse("Success",userService.getAllUsers(),null), HttpStatus.OK);
     }
+
+
+    @GetMapping(UserEndpointUtils.ALL_COUNTRIES)
+    public ResponseEntity<ApiResponse> getAllCountries(){
+        return new ResponseEntity<>(new ApiResponse("Success", userService.getAllCountries(), null), HttpStatus.OK);
+    }
+
 
 }

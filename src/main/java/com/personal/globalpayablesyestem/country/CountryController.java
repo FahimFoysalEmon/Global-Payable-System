@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/private/admin")
+@RequestMapping("/api/v1/private/super-admin")
 @Validated
 public class CountryController {
 

@@ -1,5 +1,6 @@
 package com.personal.globalpayablesyestem.bank.branch.account;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.personal.globalpayablesyestem.bank.branch.account.utils.enums.TypeOfAccount;
 import com.personal.globalpayablesyestem.bank.branch.Branch;
 import com.personal.globalpayablesyestem.userAuth.user.User;
@@ -28,6 +29,9 @@ public class Account {
 
     private TypeOfAccount typeOfAccount;
 
+    private String accountCurrency;
+
+    @JsonIgnore
     @ManyToOne
     private User user;
 
