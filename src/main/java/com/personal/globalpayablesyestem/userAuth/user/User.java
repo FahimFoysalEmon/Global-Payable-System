@@ -39,7 +39,7 @@ public class User implements UserDetails {
     private String userPassword;
     private String country;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private List<Account> accounts = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)

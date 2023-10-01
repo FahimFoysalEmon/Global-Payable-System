@@ -21,4 +21,9 @@ public class UserService {
     public List<Country> getAllCountries() {
         return countryRepository.findAll();
     }
+
+    public List<User> deleteUser(String userId) {
+        userRepository.deleteById(userId);
+        return getAllUsers();
+    }
 }

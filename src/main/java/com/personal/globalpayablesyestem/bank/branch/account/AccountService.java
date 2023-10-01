@@ -57,7 +57,6 @@ public class AccountService {
             account.setTypeOfAccount(TypeOfAccount.SAVING); // or TypeOfAccount.CHECKING
             account.setAccountHolderName(username);
             account.setAssosiatedBranch(branch);
-            account.setAccountCurrency(currency);
             account.setUser(user);
 
             return accountRepository.save(account);
