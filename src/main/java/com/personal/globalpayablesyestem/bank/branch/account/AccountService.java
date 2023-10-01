@@ -5,6 +5,7 @@ import com.personal.globalpayablesyestem.bank.BankRepository;
 import com.personal.globalpayablesyestem.bank.branch.Branch;
 import com.personal.globalpayablesyestem.bank.branch.BranchRepository;
 import com.personal.globalpayablesyestem.bank.branch.account.utils.enums.TypeOfAccount;
+import com.personal.globalpayablesyestem.common.exception.DataMismatchException;
 import com.personal.globalpayablesyestem.userAuth.exception.CredentialMisMatchError;
 import com.personal.globalpayablesyestem.userAuth.user.User;
 import com.personal.globalpayablesyestem.userAuth.user.UserRepository;
@@ -24,12 +25,9 @@ public class AccountService {
 
     public Account addAccount(String bankId,  String currency, String branchId, String initialDeposit, String username) {
 
-        System.out.println("Came to addAccount service!!");
-
-        Branch branch = branchRepository.findById(branchId).get();
         Bank bank = bankRepository.findById(bankId).get();
+        Branch branch = branchRepository.findById(branchId).get();
         User user = userRepository.findByUserEmail(username).get();
-
 
         boolean checkingBranch = false;
 
@@ -64,6 +62,33 @@ public class AccountService {
 
     }
 
-    public Account bankDeposit(String bankId, String branchId, String amount, String currency, TypeOfAccount typeOfAccount, String name, String username) {
+    public Account bankDeposit(String bankId, String branchId, String amount, String currency ,TypeOfAccount typeOfAccount, String name, String username) {
+
+
+        Bank bank = bankRepository.findById(bankId).get();
+        Branch branch = branchRepository.findById(branchId).get();
+        User user = userRepository.findByUserEmail(username).get();
+
+        boolean checkingBranch = false;
+
+        for (Branch bankBranch : bank.getBranches()) {
+            if (bankBranch.getName().equals(branch.getName())) {
+                checkingBranch = true;
+                break;
+            }
+        }
+
+        if (!checkingBranch) {
+            throw new CredentialMisMatchError("This bank does not have this branch");
+        } else {
+            Account account = accountRepository.findByAccountHolderName(name);
+
+            if (account.getTypeOfAccount().equals(typeOfAccount) && account.getAccountCurrency().equals(currency)) {
+                account.setAccountBalance(account.getAccountBalance()+amount);
+                return accountRepository.save(account);
+            } else {
+                throw new DataMismatchException("Account type or currency did not match");
+            }
+        }
     }
 }

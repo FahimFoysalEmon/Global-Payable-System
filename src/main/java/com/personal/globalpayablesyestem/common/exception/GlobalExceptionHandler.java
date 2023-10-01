@@ -5,6 +5,7 @@ import com.personal.globalpayablesyestem.userAuth.exception.CredentialMisMatchEr
 import com.personal.globalpayablesyestem.userAuth.exception.TokenExpiredException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
+import lombok.Data;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.context.MessageSource;
@@ -155,6 +156,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({CredentialMisMatchError.class})
     public ResponseEntity<ApiError> credentialMisMatchErrorHandler(CredentialMisMatchError ex) {
+        return new ResponseEntity<>(new ApiError(403, "BAD REQUEST", List.of(ex.getMessage())), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({DataMismatchException.class})
+    public ResponseEntity<ApiError> credentialMisMatchErrorHandler(DataMismatchException ex) {
         return new ResponseEntity<>(new ApiError(403, "BAD REQUEST", List.of(ex.getMessage())), HttpStatus.BAD_REQUEST);
     }
 
