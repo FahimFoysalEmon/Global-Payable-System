@@ -1,6 +1,7 @@
 package com.personal.globalpayablesyestem.bank.branch.account;
 
 import com.personal.globalpayablesyestem.bank.branch.account.utils.endpoint.AccountEndpointUtils;
+import com.personal.globalpayablesyestem.bank.branch.account.utils.enums.TypeOfAccount;
 import com.personal.globalpayablesyestem.bank.validators.BankIdMustExist;
 import com.personal.globalpayablesyestem.bank.validators.BranchIdMustExist;
 import com.personal.globalpayablesyestem.common.ApiResponse;
@@ -29,6 +30,17 @@ public class AccountController {
                                                   @RequestParam @NotEmpty @NotNull String initialDeposit){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return new ResponseEntity<>(new ApiResponse("Success", accountService.addAccount(bankId, currency ,branchId, initialDeposit, auth.getName()), null), HttpStatus.OK);
+    }
+
+
+    @PostMapping(AccountEndpointUtils.BANK_DEPOSIT)
+    public ResponseEntity<ApiResponse> bankDeposit(@PathVariable @BankIdMustExist String bankId,
+                                                   @PathVariable @BranchIdMustExist String branchId,
+                                                   @RequestParam String amount,
+                                                   @RequestParam String currency,
+                                                   @RequestParam TypeOfAccount typeOfAccount) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return new ResponseEntity<>(new ApiResponse("Success", accountService.bankDeposit(bankId, branchId, amount, currency, typeOfAccount, auth.getName(), null), HttpStatus.OK));
     }
 
 }

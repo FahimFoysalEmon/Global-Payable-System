@@ -63,4 +63,7 @@ public class AccountService {
         }
 
     }
+
+    public Account bankDeposit(String bankId, String branchId, String amount, String currency, TypeOfAccount typeOfAccount, String name, String username) {
+    }
 }
