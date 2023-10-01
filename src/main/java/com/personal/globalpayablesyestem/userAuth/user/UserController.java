@@ -6,9 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,6 +26,12 @@ public class UserController {
     @GetMapping(UserEndpointUtils.ALL_COUNTRIES)
     public ResponseEntity<ApiResponse> getAllCountries(){
         return new ResponseEntity<>(new ApiResponse("Success", userService.getAllCountries(), null), HttpStatus.OK);
+    }
+
+
+    @DeleteMapping(UserEndpointUtils.DELETE_USER)
+    public ResponseEntity<ApiResponse> deleteUser(@PathVariable String userId){
+        return new ResponseEntity<>(new ApiResponse("Deleted", userService.deleteUser(userId), null), HttpStatus.OK);
     }
 
 
