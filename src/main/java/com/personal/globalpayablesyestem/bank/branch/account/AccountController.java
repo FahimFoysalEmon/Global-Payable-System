@@ -8,11 +8,9 @@ import com.personal.globalpayablesyestem.common.ApiResponse;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,11 +34,11 @@ public class AccountController {
     @PostMapping(AccountEndpointUtils.BANK_DEPOSIT)
     public ResponseEntity<ApiResponse> bankDeposit(@PathVariable @BankIdMustExist String bankId,
                                                    @PathVariable @BranchIdMustExist String branchId,
-                                                   @RequestParam String amount,
-                                                   @RequestParam String currency,
-                                                   @RequestParam TypeOfAccount typeOfAccount) {
+                                                   @RequestParam @NotEmpty @NotNull String amount,
+                                                   @RequestParam @NotEmpty @NotNull String currency,
+                                                   @RequestParam @NotEmpty @NotNull TypeOfAccount typeOfAccount) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return new ResponseEntity<>(new ApiResponse("Success", accountService.bankDeposit(bankId, branchId, amount, currency, typeOfAccount, auth.getName(), null), HttpStatus.OK));
+        return new ResponseEntity<>(new ApiResponse("Success", accountService.bankDeposit(bankId, branchId, amount, currency, typeOfAccount, auth.getName()), null), HttpStatus.OK);
     }
 
 }
