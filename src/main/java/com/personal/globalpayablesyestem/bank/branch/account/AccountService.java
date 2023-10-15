@@ -10,6 +10,7 @@ import com.personal.globalpayablesyestem.userAuth.exception.CredentialMisMatchEr
 import com.personal.globalpayablesyestem.userAuth.user.User;
 import com.personal.globalpayablesyestem.userAuth.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -63,14 +64,22 @@ public class AccountService {
             throw new CredentialMisMatchError("This bank does not have this branch");
         } else {
             Account account = accountRepository.findByAccountHolderName(username);
-
             if (account.getTypeOfAccount().equals(typeOfAccount) && account.getAccountCurrency().equals(currency)) {
-                account.setAccountBalance(String.valueOf(Double.parseDouble(account.getAccountBalance())+Double.parseDouble(amount)));
-                return accountRepository.save(account);
+                if (checkingIfAccHasAssociatedWithThisBranch(branchId, account)) {
+                    account.setAccountBalance(String.valueOf(Double.parseDouble(account.getAccountBalance())+Double.parseDouble(amount)));
+                    return accountRepository.save(account);
+                } {
+                  throw new DataMismatchException("Account is not in this branch");
+                }
             } else {
                 throw new DataMismatchException("Account type or currency did not match");
             }
         }
+    }
+
+    private boolean checkingIfAccHasAssociatedWithThisBranch(String branchId, Account account) {
+        Branch branch = branchRepository.findById(branchId).get();
+        return account.getAssosiatedBranch().equals(branch);
     }
 
 
@@ -88,5 +97,19 @@ public class AccountService {
             }
         }
         return checkingBranch;
+    }
+
+    public Account getAccBal(String username, String bankId, String branchId) {
+        if (checkingBranch(bankId,branchId)) {
+            Account account = accountRepository.findByAccountHolderName(username);
+            if (account != null) {
+                if (checkingIfAccHasAssociatedWithThisBranch(branchId, account)) {
+                    return account;
+                }
+                throw new DataMismatchException("Account is not in this branch");
+            }
+            throw new DataMismatchException("Account is Invalid");
+        }
+        throw new DataMismatchException("Information is not correct");
     }
 }
