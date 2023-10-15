@@ -38,7 +38,15 @@ public class AccountController {
                                                    @RequestParam @NotEmpty @NotNull String currency,
                                                    @RequestParam @NotEmpty @NotNull TypeOfAccount typeOfAccount) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return new ResponseEntity<>(new ApiResponse("Success", accountService.bankDeposit(bankId, branchId, amount, currency, typeOfAccount, auth.getName()), null), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse("Amount Successfully Deposited", accountService.bankDeposit(bankId, branchId, amount, currency, typeOfAccount, auth.getName()), null), HttpStatus.OK);
+    }
+
+
+    @GetMapping(AccountEndpointUtils.GET_BALANCE)
+    public ResponseEntity<ApiResponse> getAccBal(@PathVariable @BankIdMustExist String bankId,
+                                                 @PathVariable @BranchIdMustExist String branchId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return new ResponseEntity<>(new ApiResponse("Success", accountService.getAccBal(auth, bankId, branchId), null), HttpStatus.OK);
     }
 
 }
