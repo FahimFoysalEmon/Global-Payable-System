@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+import static java.lang.Float.parseFloat;
+
 @RequiredArgsConstructor
 @Service
 public class AccountService {
@@ -100,6 +102,34 @@ public class AccountService {
     }
 
     public Account getAccBal(String username, String bankId, String branchId) {
+        return branchHasInTheBankAndAccHasInTheBranch(username, bankId, branchId);
+    }
+
+    public Account sendMoney(String name, String bankId, String branchId, String accountNumber, String amt) {
+        Account account = accountRepository.findByAccountHolderName(name);
+        Account accountToBeDeposit = accountRepository.findByAccountNumber(accountNumber);
+
+
+        if (accountToBeDeposit == null) {
+            throw new DataMismatchException("Account is Invalid");
+        }
+
+        Account matchedAcc = branchHasInTheBankAndAccHasInTheBranch(accountToBeDeposit.getAccountHolderName(), bankId, branchId);
+
+        var currentBalance = parseFloat(account.getAccountBalance());
+        var givenAmt = parseFloat(amt);
+
+        var userToBeGiven = parseFloat(accountToBeDeposit.getAccountBalance());
+
+        account.setAccountBalance(String.valueOf(currentBalance - givenAmt));
+        matchedAcc.setAccountBalance(String.valueOf(userToBeGiven + givenAmt));
+
+        accountRepository.save(matchedAcc);
+
+        return accountRepository.save(account);
+    }
+
+    private Account branchHasInTheBankAndAccHasInTheBranch(String username, String bankId, String branchId){
         if (checkingBranch(bankId,branchId)) {
             Account account = accountRepository.findByAccountHolderName(username);
             if (account != null) {

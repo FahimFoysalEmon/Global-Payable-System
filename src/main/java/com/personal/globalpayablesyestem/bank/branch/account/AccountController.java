@@ -5,12 +5,15 @@ import com.personal.globalpayablesyestem.bank.branch.account.utils.enums.TypeOfA
 import com.personal.globalpayablesyestem.bank.validators.BankIdMustExist;
 import com.personal.globalpayablesyestem.bank.validators.BranchIdMustExist;
 import com.personal.globalpayablesyestem.common.ApiResponse;
+import io.jsonwebtoken.Jwt;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +52,16 @@ public class AccountController {
                                                  @PathVariable @BranchIdMustExist String branchId) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return new ResponseEntity<>(new ApiResponse("Success", accountService.getAccBal(auth.getName(), bankId, branchId), null), HttpStatus.OK);
+    }
+
+
+    @PostMapping(AccountEndpointUtils.SEND_MONEY)
+    public ResponseEntity<ApiResponse> sendMoney(@PathVariable @BankIdMustExist String bankId,
+                                                 @PathVariable @BranchIdMustExist String branchId,
+                                                 @PathVariable String accountNumber,
+                                                 @PathVariable String amt){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return new ResponseEntity<>(new ApiResponse("Success", accountService.sendMoney(auth.getName(), bankId, branchId, accountNumber, amt), null), HttpStatus.OK);
     }
 
 }
